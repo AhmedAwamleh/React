@@ -1,6 +1,6 @@
 
 
-import PostForm from './postForm';
+import FrontEnd from './postForm';
 
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
 
-      <PostForm />
+      <FrontEnd />
     </div>
   );
 }

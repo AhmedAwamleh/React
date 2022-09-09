@@ -1,52 +1,50 @@
+
 import React from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
-export default function Postform() {
-    const [name, setName] = useState('ahmed');
-    const [age, setAge] = useState('30');
-    const [gender, setGender] = useState('male')
 
-    function handleChangeName(e) {
-        setName(e.target.value)
-    }
-    function handleChangeAge(e) {
-        setAge(e.target.value)
-    }
-    function handleChangeGender(e) {
-        setGender(e.target.value)
-    }
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const data = {
-            "name": e.target.name.value,
-            "age": e.target.age.value,
-            "gender": e.target.gender.value,
+function FrontEnd() {
+    const url = (`http://localhost:3009/person`)
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('')
+
+
+    async function handelSubmit(e) {
+
+        e.preventDefault();
+        console.log(name, age, gender)
+
+        try {
+
+            const sendPost = await axios.post(url, { name, age, gender })
+
+            console.log(sendPost.data)
+            console.log(typeof (sendPost.data))
+        } catch (error) {
+            console.log(error)
         }
 
-        const newAge = await axios.post(`http://localhost:3008/person`, data).catch(function (error) { console.log(error) })
-        setAge(newAge.data)
-        e.target.name.value = ''
-        e.target.age.value = ''
-        e.target.gender.value = ''
     }
+
+
+
+
+
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+        <>
 
-                <input type="text" id='name' placeholder="Enter name" onChange={handleChangeName} />
-                <input type="text" id='age' placeholder="Enter age" onChange={handleChangeAge} />
-                <input type="text" id='gender' placeholder="Enter gender" onChange={handleChangeGender} />
+            <form onSubmit={handelSubmit}>
 
-                <Button variant="primary" type="submit">   Submit </Button>
+                <input type="text" placeholder="name" value={name} onChange={(e) => setName(e.target.value)} />
+                <input type="text" placeholder="age" name="age" value={age} onChange={(e) => setAge(e.target.value)} />
+                <input type="text" placeholder="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)} />
+                <button type="submit" >submit</button>
+            </form>
 
-            </Form.Group>
-
-
-        </Form>
+        </>
 
     )
 }
+export default FrontEnd
