@@ -5,10 +5,11 @@ import { useState } from "react";
 
 
 function FrontEnd() {
-    const url = (`http://localhost:3009/person`)
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [gender, setGender] = useState('')
+    const url = (`http://localhost:3008/person`)
+    const [name, setName] = useState('ahmed');
+    const [age, setAge] = useState('25');
+    const [gender, setGender] = useState('male')
+
 
 
     async function handelSubmit(e) {
@@ -18,10 +19,13 @@ function FrontEnd() {
 
         try {
 
-            const sendPost = await axios.post(url, { name, age, gender })
+            const sendPost = await (await axios.post(url, { name, age, gender }))
+
+
 
             console.log(sendPost.data)
-            console.log(typeof (sendPost.data))
+
+            console.log(typeof (sendPost.data.newAge))
         } catch (error) {
             console.log(error)
         }
@@ -41,7 +45,11 @@ function FrontEnd() {
                 <input type="text" placeholder="age" name="age" value={age} onChange={(e) => setAge(e.target.value)} />
                 <input type="text" placeholder="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)} />
                 <button type="submit" >submit</button>
+                {/* <input type="text" onChange={handleAge} /> */}
             </form>
+            <p data-testid="name">my name is {name}</p>
+            <p data-testid="age">my age is {age}</p>
+            <p data-testid="gender">my gender is {gender}</p>
 
         </>
 
